@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Celestial Dinner 2026 - Registration</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg-dark: #03040a;
+      --card-bg: rgba(10, 13, 28, 0.75);
+      --card-border: rgba(243, 208, 138, 0.35);
+      --accent-gold: #f7d794;
+      --accent-gold-bright: #fff2d1;
+      --accent-glow: rgba(247, 215, 148, 0.4);
+      --text-main: #f5f7fc;
+      --text-sub: #a1acc4;
+      --danger-red: #ff6b6b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* --- Animated Starry Night Background --- */
+    .space-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 50% 10%, rgba(95, 63, 163, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(35, 78, 143, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 10% 60%, rgba(140, 50, 120, 0.25) 0%, transparent 40%);
+    }
+
+    /* Star Canvas */
+    #starCanvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 
+        0 0 40px rgba(247, 215, 148, 0.12),
+        0 20px 60px rgba(0, 0, 0, 0.8),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      text-align: center;
+      color: var(--accent-gold-bright);
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: 5px;
+      margin-bottom: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(247, 215, 148, 0.6), 0 0 40px rgba(247, 215, 148, 0.2);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      margin-bottom: 8px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(4, 6, 18, 0.65);
+      border: 1px solid rgba(247, 215, 148, 0.2);
+      border-radius: 14px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent-gold);
+      background: rgba(4, 6, 18, 0.85);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    input::placeholder {
+      color: rgba(161, 172, 196, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #f7d794 0%, #d49a37 100%);
+      color: #03040a;
+      border: none;
+      border-radius: 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 25px rgba(247, 215, 148, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 30px rgba(247, 215, 148, 0.5);
+      background: linear-gradient(135deg, #fff2d1 0%, #e5aa47 100%);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-msg {
+      color: var(--danger-red);
+      font-size: 0.8rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .notice-box {
+      background: rgba(247, 215, 148, 0.05);
+      border: 1px solid rgba(247, 215, 148, 0.2);
+      padding: 14px;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 22px;
+      border-radius: 12px;
+      line-height: 1.5;
+    }
+
+    /* --- Ticket View Styles --- */
+    .result-card {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .star-icon {
+      font-size: 3rem;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 16px var(--accent-gold));
+      animation: pulseStar 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseStar {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 16px var(--accent-gold)); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 28px var(--accent-gold-bright)); }
+    }
+
+    .star-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      color: var(--accent-gold-bright);
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(247, 215, 148, 0.4);
+    }
+
+    .star-meaning {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--text-main);
+      margin-bottom: 24px;
+      line-height: 1.5;
+      font-size: 1.15rem;
+      opacity: 0.95;
+    }
+
+    .draw-box {
+      background: rgba(247, 215, 148, 0.06);
+      border: 1px solid var(--accent-gold);
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(247, 215, 148, 0.1), inset 0 0 15px rgba(247, 215, 148, 0.05);
+    }
+
+    .draw-label {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .draw-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.7rem;
+      font-weight: 600;
+      color: var(--accent-gold-bright);
+      letter-spacing: 3px;
+      text-shadow: 0 0 12px rgba(247, 215, 148, 0.5);
+    }
+
+    .reminder-banner {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.25);
+      color: #ffb3b5;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(247, 215, 148, 0.3);
+      color: var(--text-sub);
+      margin-top: 10px;
+      box-shadow: none;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background: transparent;
+      box-shadow: 0 0 20px rgba(247, 215, 148, 0.2);
+    }
+
+    .admin-link {
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .admin-link a {
+      color: rgba(161, 172, 196, 0.6);
+      font-size: 0.75rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+
+    .admin-link a:hover {
+      color: var(--accent-gold);
+    }
+
+    .admin-panel {
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      padding: 10px 6px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      color: var(--accent-gold);
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* Prize Wheel */
+    .wheel-section {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .wheel-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--accent-gold);
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+
+    .wheel-wrapper {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      margin: 20px auto;
+    }
+
+    #wheelCanvas {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-glow);
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 18px solid var(--accent-gold-bright);
+      z-index: 10;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+    }
+
+    .winner-box {
+      display: none;
+      background: rgba(247, 215, 148, 0.1);
+      border: 1px solid var(--accent-gold);
+      padding: 16px;
+      border-radius: 14px;
+      margin-top: 18px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="space-bg"></div>
+  <canvas id="starCanvas"></canvas>
+
+  <div class="container">
+    <!-- Form View -->
+    <div id="formContainer">
+      <h1>VHall Nite</h1>
+      <p class="subtitle">Celestial • 15 October</p>
+
+      <form id="regForm">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="e.g. Alex Tan" required />
+        </div>
+
+        <div class="form-group">
+          <label for="roomNo">Room Number</label>
+          <input type="text" id="roomNo" placeholder="e.g. HX-XX-XX" required />
+        </div>
+
+        <div class="form-group">
+          <label for="finLast4">Last 4 Digits of FIN / ID</label>
+          <input type="text" id="finLast4" maxlength="4" placeholder="e.g. 567A" required />
+          <p id="errorMsg" class="error-msg"></p>
+        </div>
+
+        <button type="submit" id="submitBtn">Reveal My Star</button>
+
+        <div class="notice-box">
+          ✨ <strong>Note:</strong> Your FIN (Last 4) connects uniquely to your ticket. Re-entering your details will pull up your assigned serial number.
+        </div>
+      </form>
+    </div>
+
+    <!-- Ticket View -->
+    <div id="resultCard" class="result-card">
+      <div class="star-icon">✦</div>
+      <p class="draw-label">Your Assigned Star</p>
+      <div id="resStarName" class="star-name">Polaris</div>
+      <p id="resStarMeaning" class="star-meaning">"Guidance and constancy — you are a guiding light for others."</p>
+
+      <div class="draw-box">
+        <p class="draw-label">Lucky Draw Serial Number</p>
+        <div id="resDrawNum" class="draw-number">#STAR-001</div>
+      </div>
+
+      <div class="reminder-banner">
+        📸 <strong>IMPORTANT:</strong> Please screenshot or save your serial number! Present this ticket to claim your lucky draw prize.
+      </div>
+
+      <p class="subtitle" id="resGuestDetails" style="margin-bottom: 15px;"></p>
+      <button class="btn-secondary" onclick="resetForm()">Register Another Guest</button>
+    </div>
+
+    <!-- Admin View -->
+    <div id="adminPanel" class="admin-panel">
+      <h1>Guest List</h1>
+      <p class="subtitle" id="guestCount">Total Attendees: 0</p>
+
+      <div style="max-height: 180px; overflow-y: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Serial</th>
+              <th>Name</th>
+              <th>Room</th>
+              <th>FIN</th>
+            </tr>
+          </thead>
+          <tbody id="guestTableBody">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="wheel-section">
+        <h2>Prize Wheel</h2>
+        <div class="wheel-wrapper">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="240" height="240"></canvas>
+        </div>
+        <button id="spinBtn" onclick="spinWheel()">SPIN WHEEL</button>
+
+        <div id="winnerBox" class="winner-box">
+          <p class="draw-label">✦ WINNER ANNOUNCEMENT ✦</p>
+          <div id="winnerSerial" class="draw-number">#STAR-000</div>
+          <p id="winnerDetails" style="color: var(--text-main); font-weight: 500; margin-top: 4px; font-size: 0.9rem;"></p>
+        </div>
+      </div>
+
+      <button class="btn-secondary" onclick="hideAdmin()">Back to Form</button>
+    </div>
+  </div>
+
+  <script>
+    // --- SUPABASE CONFIGURATION ---
+    const SUPABASE_URL = "https://qtnsdfhoyihzzspuridn.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0bnNkZmhveWloenpzcHVyaWRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNzM4MjgsImV4cCI6MjEwNjg0OTgyOH0.MEXk09GChxMK6W1QZcP87c4QxsxN7Pexys4MXEoOyBs";
+    const ADMIN_PASSWORD = "celestial2026";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const STARS = [
+      { name: "Sirius", quote: "The brightest star in the night sky. May your unique brilliance illuminate every room you enter!" },
+      { name: "Polaris", quote: "The North Star. Steady and true, you serve as an inspiring anchor for those around you." },
+      { name: "Vega", quote: "A brilliant star of harmony and art. May your creative energy bring magic to everything you touch." },
+      { name: "Altair", quote: "The flying eagle star. Soar high above obstacles with courage, vision, and determination." },
+      { name: "Spica", quote: "A giant star of growth and prosperity. Every seed of effort you plant today will bloom spectacularly." },
+      { name: "Antares", quote: "The heart of the scorpion. Driven by passion and inner resilience, trust the power within you." },
+      { name: "Capella", quote: "The golden star. Radiate warmth and kindness, bringing joy to everyone you meet." },
+      { name: "Rigel", quote: "A glowing blue supergiant. Embrace your strength and lead with confidence wherever you go." }
+    ];
+
+    const form = document.getElementById('regForm');
+    const formContainer = document.getElementById('formContainer');
+    const resultCard = document.getElementById('resultCard');
+    const adminPanel = document.getElementById('adminPanel');
+    const errorMsg = document.getElementById('errorMsg');
+    const submitBtn = document.getElementById('submitBtn');
+
+    let globalGuests = [];
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('fullName').value.trim();
+  const room = document.getElementById('roomNo').value.trim().toUpperCase();
+  const finLast4 = document.getElementById('finLast4').value.trim().toUpperCase();
+
+  if (finLast4.length !== 4) {
+    showError("Please enter exactly 4 characters for your FIN.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Connecting to Stars...";
+
+  try {
+    // 1. Check if FIN already exists in Supabase
+    const { data: existing, error: searchErr } = await supabaseClient
+      .from('guests')
+      .select('*')
+      .eq('fin_last4', finLast4);
+
+    if (searchErr) throw searchErr;
+
+    if (existing && existing.length > 0) {
+      showResult(existing[0]);
+      return;
+    }
+
+    errorMsg.style.display = 'none';
+
+    // 2. Count current rows to generate ticket number
+    const { count, error: countErr } = await supabaseClient
+      .from('guests')
+      .select('*', { count: 'exact', head: true });
+
+    if (countErr) throw countErr;
+
+    const randomStar = STARS[Math.floor(Math.random() * STARS.length)];
+    const serialNumber = `#STAR-${String((count || 0) + 1).padStart(3, '0')}`;
+
+    // 3. Insert record with final ticket number in a SINGLE operation
+    const newGuest = {
+      ticket: serialNumber,
+      name: name,
+      room: room,
+      fin_last4: finLast4,
+      star: randomStar.name,
+      quote: randomStar.quote
+    };
+
+    const { data: insertedData, error: insertErr } = await supabaseClient
+      .from('guests')
+      .insert([newGuest])
+      .select();
+
+    if (insertErr) throw insertErr;
+
+    showResult(insertedData[0]);
+
+  } catch (err) {
+    console.error(err);
+    showError("Unable to save registration. Please check your network and try again.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Reveal My Star";
+  }
+});
+    function showError(message) {
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+    }
+
+    function showResult(guest) {
+      formContainer.style.display = 'none';
+      adminPanel.style.display = 'none';
+      resultCard.style.display = 'block';
+
+      document.getElementById('resStarName').textContent = guest.star;
+      document.getElementById('resStarMeaning').textContent = `"${guest.quote}"`;
+      document.getElementById('resDrawNum').textContent = guest.ticket;
+      document.getElementById('resGuestDetails').textContent = `${guest.name} (${guest.room}) • FIN: ***${guest.fin_last4}`;
+    }
+
+    function resetForm() {
+      form.reset();
+      errorMsg.style.display = 'none';
+      resultCard.style.display = 'none';
+      adminPanel.style.display = 'none';
+      formContainer.style.display = 'block';
+    }
+
+    /* Admin Password & Panel Functions */
+    function showAdminPrompt() {
+      const pwd = prompt("Enter Admin Password:");
+      if (pwd === ADMIN_PASSWORD) {
+        showAdmin();
+      } else if (pwd !== null) {
+        alert("Incorrect Admin Password!");
+      }
+    }
+
+    async function showAdmin() {
+      formContainer.style.display = 'none';
+      adminPanel.style.display = 'block';
+
+      const tbody = document.getElementById('guestTableBody');
+      tbody.innerHTML = '<tr><td colspan="4">Fetching live guest list...</td></tr>';
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('guests')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        globalGuests = data || [];
+        renderAdminTable();
+        drawWheel();
+      } catch (err) {
+        alert("Failed to load admin data from Supabase.");
+      }
+    }
+
+    function renderAdminTable() {
+      document.getElementById('guestCount').textContent = `Total Attendees: ${globalGuests.length}`;
+
+      const tbody = document.getElementById('guestTableBody');
+      tbody.innerHTML = '';
+
+      globalGuests.forEach((g) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${g.ticket}</td>
+          <td>${g.name}</td>
+          <td>${g.room}</td>
+          <td>${g.fin_last4}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function hideAdmin() {
+      adminPanel.style.display = 'none';
+      formContainer.style.display = 'block';
+    }
+
+    /* Wheel Logic */
+    let currentAngle = 0;
+    let isSpinning = false;
+
+    function drawWheel() {
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const center = width / 2;
+      const radius = center - 2;
+
+      ctx.clearRect(0, 0, width, width);
+
+      if (globalGuests.length === 0) {
+        ctx.fillStyle = '#0a0d1c';
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#f7d794';
+        ctx.font = '12px Plus Jakarta Sans';
+        ctx.textAlign = 'center';
+        ctx.fillText('No Guests Registered', center, center);
+        return;
+      }
+
+      const sliceAngle = (2 * Math.PI) / globalGuests.length;
+      const colors = ['#f7d794', '#111736', '#222d5a', '#33417a', '#c99a44'];
+
+      globalGuests.forEach((g, i) => {
+        const start = currentAngle + i * sliceAngle;
+        const end = start + sliceAngle;
+
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, start, end);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(center, center);
+        ctx.rotate(start + sliceAngle / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = (colors[i % colors.length] === '#f7d794') ? '#03040a' : '#ffffff';
+        ctx.font = '600 10px Plus Jakarta Sans';
+        ctx.fillText(g.ticket, radius - 10, 3);
+        ctx.restore();
+      });
+    }
+
+    function spinWheel() {
+      if (globalGuests.length === 0) {
+        alert("Cannot spin! No guests registered.");
+        return;
+      }
+
+      if (isSpinning) return;
+      isSpinning = true;
+      document.getElementById('winnerBox').style.display = 'none';
+
+      const spinAngle = Math.random() * 20 + 30;
+      const totalSpin = spinAngle * 10;
+      let duration = 3500;
+      let start = null;
+
+      function animateWheel(timestamp) {
+        if (!start) start = timestamp;
+        let progress = timestamp - start;
+        let easeOutRatio = 1 - Math.pow(1 - Math.min(progress / duration, 1), 3);
+
+        currentAngle = easeOutRatio * totalSpin;
+        drawWheel();
+
+        if (progress < duration) {
+          requestAnimationFrame(animateWheel);
+        } else {
+          isSpinning = false;
+          determineWinner(globalGuests);
+        }
+      }
+
+      requestAnimationFrame(animateWheel);
+    }
+
+    function determineWinner(guests) {
+      const sliceAngle = (2 * Math.PI) / guests.length;
+      const normalizedAngle = (3 * Math.PI / 2 - (currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+      const winnerIndex = Math.floor(normalizedAngle / sliceAngle) % guests.length;
+
+      const winner = guests[winnerIndex];
+      document.getElementById('winnerSerial').textContent = winner.ticket;
+      document.getElementById('winnerDetails').textContent = `${winner.name} (${winner.room})`;
+      document.getElementById('winnerBox').style.display = 'block';
+    }
+
+    /* --- Canvas Starry Background Animation --- */
+    const starCanvas = document.getElementById('starCanvas');
+    const ctx = starCanvas.getContext('2d');
+    let stars = [];
+    let shootingStars = [];
+
+    function resizeCanvas() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+      initStars();
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((starCanvas.width * starCanvas.height) / 3000);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * starCanvas.width,
+          y: Math.random() * starCanvas.height,
+          radius: Math.random() * 1.5,
+          alpha: Math.random(),
+          speed: Math.random() * 0.02 + 0.005
+        });
+      }
+    }
+
+    function addShootingStar() {
+      shootingStars.push({
+        x: Math.random() * starCanvas.width * 0.8,
+        y: Math.random() * starCanvas.height * 0.5,
+        length: Math.random() * 80 + 40,
+        speed: Math.random() * 10 + 6,
+        alpha: 1
+      });
+      setTimeout(addShootingStar, Math.random() * 4000 + 2000);
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
+      // Draw static/twinkling stars
+      stars.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+
+        ctx.fillStyle = `rgba(255, 242, 209, ${Math.abs(s.alpha)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw shooting stars
+      for (let i = shootingStars.length - 1; i >= 0; i--) {
+        let st = shootingStars[i];
+        st.x += st.speed;
+        st.y += st.speed * 0.6;
+        st.alpha -= 0.02;
+
+        if (st.alpha <= 0) {
+          shootingStars.splice(i, 1);
+          continue;
+        }
+
+        let grad = ctx.createLinearGradient(st.x, st.y, st.x - st.length, st.y - st.length * 0.6);
+        grad.addColorStop(0, `rgba(255, 242, 209, ${st.alpha})`);
+        grad.addColorStop(1, 'transparent');
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(st.x, st.y);
+        ctx.lineTo(st.x - st.length, st.y - st.length * 0.6);
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    animateStars();
+    setTimeout(addShootingStar, 1000);
+  </script>
+</body>
+</html>
