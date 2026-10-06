@@ -511,9 +511,12 @@ form.addEventListener('submit', async function(e) {
   const name = document.getElementById('fullName').value.trim();
   const room = document.getElementById('roomNo').value.trim().toUpperCase();
   const finLast4 = document.getElementById('finLast4').value.trim().toUpperCase();
+  const finPattern = /^\d{3}[A-Za-z]$/;
 
-  if (finLast4.length !== 4) {
-    showError("Please enter exactly 4 characters for your FIN.");
+  if (!finPattern.test(finLast4)) {
+    showError("FIN format must be correct.");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Reveal My Star";
     return;
   }
 
