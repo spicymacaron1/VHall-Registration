@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lucky Draw</title>
+  <title>COSMIC SCOPE // Deep Space Lucky Draw Engine</title>
 
   <!-- External Tailwind CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Supabase JS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
     tailwind.config = {
@@ -172,18 +170,18 @@
   <div class="scanlines fixed inset-0 pointer-events-none z-10"></div>
 
   <!-- FLOATING TOP RIGHT UTILITY BUTTONS -->
-  <div class="fixed top-4 right-4 sm:top-6 sm:right-6 z-40 flex items-center space-x-2 sm:space-x-3">
-    <button onclick="openManageModal()" class="px-3 sm:px-4 py-2.5 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/20 font-orbitron text-xs font-bold transition flex items-center space-x-2 shadow-lg">
-      <i class="fa-solid fa-database text-cyan-400"></i>
-      <span class="hidden sm:inline">SUPABASE POOL</span>
-      <span id="badge-entry-count" class="ml-1 px-2 py-0.5 text-[10px] rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-500/40">0</span>
+  <div class="fixed top-3 right-3 sm:top-4 sm:right-4 z-40 flex items-center space-x-2">
+    <button onclick="openManageModal()" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/20 font-orbitron text-[11px] sm:text-xs font-bold transition flex items-center space-x-1.5 shadow-lg">
+      <i class="fa-solid fa-users-gear text-xs"></i>
+      <span class="hidden sm:inline">EXPLORERS POOL</span>
+      <span id="badge-entry-count" class="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-500/40">200</span>
     </button>
 
-    <button id="sound-btn" onclick="toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-400 hover:text-cyan-200 transition flex items-center justify-center shadow-lg" title="Toggle Sound FX">
+    <button id="sound-btn" onclick="toggleAudio()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-400 hover:text-cyan-200 transition flex items-center justify-center text-xs shadow-lg" title="Toggle Sound FX">
       <i id="sound-icon" class="fa-solid fa-volume-high"></i>
     </button>
 
-    <button onclick="toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-400 hover:text-cyan-200 transition flex items-center justify-center shadow-lg">
+    <button onclick="toggleFullscreen()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900/80 backdrop-blur-md border border-cyan-500/40 text-cyan-400 hover:text-cyan-200 transition flex items-center justify-center text-xs shadow-lg">
       <i class="fa-solid fa-expand"></i>
     </button>
   </div>
@@ -193,32 +191,31 @@
 
     <div id="sky-winner-container" class="sky-winner-hidden absolute z-30 max-w-[94vw] sm:max-w-[88vw] md:max-w-[80vw] flex flex-col items-center justify-center text-center">
       
-      <div class="font-orbitron font-extrabold text-xs sm:text-sm md:text-base tracking-[0.3em] text-amber-300 uppercase mb-4 px-6 py-2 rounded-full bg-slate-950/90 border-2 border-amber-400/80 shadow-glow-gold flex items-center space-x-3">
-        <i class="fa-solid fa-star text-amber-400 animate-pulse"></i>
+      <div class="font-orbitron font-extrabold text-[11px] sm:text-xs md:text-sm tracking-[0.3em] text-amber-300 uppercase mb-3 px-5 py-1.5 rounded-full bg-slate-950/90 border-2 border-amber-400/80 shadow-glow-gold flex items-center space-x-2.5">
+        <i class="fa-solid fa-star text-amber-400 animate-pulse text-xs"></i>
         <span>CELESTIAL LUCKY DRAW WINNER</span>
-        <i class="fa-solid fa-star text-amber-400 animate-pulse"></i>
+        <i class="fa-solid fa-star text-amber-400 animate-pulse text-xs"></i>
       </div>
 
-      <div class="w-full bg-slate-950/95 backdrop-blur-xl rounded-3xl border-4 border-amber-400/90 p-6 sm:p-10 md:p-12 shadow-[0_0_100px_rgba(255,215,0,0.45)] flex flex-col items-center justify-center relative overflow-hidden">
+      <div class="w-full bg-slate-950/95 backdrop-blur-xl rounded-3xl border-4 border-amber-400/90 p-5 sm:p-8 md:p-10 shadow-[0_0_100px_rgba(255,215,0,0.45)] flex flex-col items-center justify-center relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-amber-500/10 via-transparent to-cyan-500/10 pointer-events-none"></div>
 
-        <div id="sky-winner-name" class="font-orbitron font-black text-3xl sm:text-6xl md:text-7xl lg:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-yellow-200 to-amber-400 tracking-wider drop-shadow-[0_0_45px_rgba(255,215,0,0.95)] break-words max-w-full text-center px-4 py-2">
+        <div id="sky-winner-name" class="font-orbitron font-black text-2xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-yellow-200 to-amber-400 tracking-wider drop-shadow-[0_0_45px_rgba(255,215,0,0.95)] break-words max-w-full text-center px-4 py-2">
           EXPLORER NAME
         </div>
       </div>
 
-      <div class="mt-4 font-mono text-xs sm:text-sm text-cyan-300/90 tracking-widest flex flex-wrap items-center justify-center gap-3 sm:gap-6 bg-slate-950/90 px-6 py-2.5 rounded-full border border-cyan-500/40 shadow-glow-cyan">
-        <span>TICKET: <span id="sky-coord-ticket" class="text-amber-300 font-bold">#STAR-001</span></span>
+      <div class="mt-3 font-mono text-[11px] sm:text-xs text-cyan-300/90 tracking-widest flex flex-wrap items-center justify-center gap-3 sm:gap-5 bg-slate-950/90 px-5 py-2 rounded-full border border-cyan-500/40 shadow-glow-cyan">
+        <span>ASSIGNED TICKET: <span id="sky-winner-ticket" class="text-amber-300 font-bold text-sm sm:text-base">TICKET #1001</span></span>
       </div>
 
-      <button onclick="resetTelescopeToCenter()" class="mt-6 px-8 py-3 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border-2 border-cyan-400/60 font-orbitron font-bold text-xs sm:text-sm tracking-widest uppercase transition flex items-center space-x-2 shadow-glow-cyan">
+      <button onclick="resetTelescopeToCenter()" class="mt-5 px-6 py-2.5 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border-2 border-cyan-400/60 font-orbitron font-bold text-xs tracking-widest uppercase transition flex items-center space-x-2 shadow-glow-cyan">
         <i class="fa-solid fa-arrow-rotate-left"></i>
-        <span>SPIN / DRAW AGAIN</span>
+        <span>SPIN AGAIN</span>
       </button>
 
     </div>
 
-    <!-- CIRCULAR TELESCOPE LENS RIG -->
     <div id="telescope-rig" class="telescope-centered absolute z-20 w-[135vh] h-[135vh] min-w-[135vh] min-h-[135vh] rounded-full flex items-center justify-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       
       <div class="w-full h-full rounded-full brass-bezel p-6 sm:p-10 shadow-2xl flex items-center justify-center overflow-hidden">
@@ -237,16 +234,15 @@
             <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/15 via-transparent to-amber-500/20 pointer-events-none z-30"></div>
 
             <div id="names-scroll-container" class="absolute inset-0 flex items-center justify-start overflow-hidden z-20 px-2">
-              <div id="names-scroll-track" class="relative flex items-center whitespace-nowrap text-cyan-200 font-orbitron font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide">
-                <!-- Dynamically populated carousel -->
+              <div id="names-scroll-track" class="relative flex items-center whitespace-nowrap text-cyan-200 font-orbitron font-black text-xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wide">
               </div>
             </div>
 
-            <div id="target-reticle" class="absolute h-28 sm:h-36 border-2 sm:border-4 border-amber-400 rounded-2xl pointer-events-none z-30 shadow-[0_0_35px_rgba(255,215,0,0.7)] flex justify-between p-2 sm:p-3 transition-all duration-300 cubic-bezier(0.16,1,0.3,1) min-w-[200px] max-w-[90%]" style="width: 260px;">
-              <span class="w-4 h-4 border-t-4 border-l-4 border-amber-300"></span>
-              <span class="w-4 h-4 border-t-4 border-r-4 border-amber-300"></span>
-              <span class="w-4 h-4 border-b-4 border-l-4 border-amber-300 absolute bottom-2 left-2"></span>
-              <span class="w-4 h-4 border-b-4 border-r-4 border-amber-300 absolute bottom-2 right-2"></span>
+            <div id="target-reticle" class="absolute h-24 sm:h-32 border-2 sm:border-4 border-amber-400 rounded-2xl pointer-events-none z-30 shadow-[0_0_35px_rgba(255,215,0,0.7)] flex justify-between p-2 transition-all duration-300 cubic-bezier(0.16,1,0.3,1) min-w-[180px] max-w-[90%]" style="width: 220px;">
+              <span class="w-3.5 h-3.5 border-t-3 border-l-3 border-amber-300"></span>
+              <span class="w-3.5 h-3.5 border-t-3 border-r-3 border-amber-300"></span>
+              <span class="w-3.5 h-3.5 border-b-3 border-l-3 border-amber-300 absolute bottom-1.5 left-1.5"></span>
+              <span class="w-3.5 h-3.5 border-b-3 border-r-3 border-amber-300 absolute bottom-1.5 right-1.5"></span>
             </div>
 
           </div>
@@ -258,17 +254,16 @@
 
   </div>
 
-  <!-- BOTTOM MAIN CONTROLS -->
-  <div class="w-full z-40 flex flex-col items-center justify-center px-4 py-4 space-y-3 sticky bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/90 to-transparent flex-shrink-0">
+  <div class="w-full z-40 flex flex-col items-center justify-center px-4 py-3 space-y-2 sticky bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/90 to-transparent flex-shrink-0">
     
-    <div class="flex items-center space-x-4">
-      <button id="draw-main-btn" onclick="startTelescopeDrawSequence()" class="py-4 px-10 sm:px-14 rounded-2xl bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400 hover:from-cyan-400 hover:to-amber-300 text-black font-orbitron font-black text-xl sm:text-2xl tracking-widest shadow-glow-cyan hover:scale-105 active:scale-95 transition-all duration-200 uppercase flex items-center space-x-3">
-        <i class="fa-solid fa-bolt text-2xl animate-bounce"></i>
+    <div class="flex items-center space-x-3">
+      <button id="draw-main-btn" onclick="startTelescopeDrawSequence()" class="py-3 px-10 sm:px-14 rounded-2xl bg-gradient-to-r from-cyan-500 via-purple-500 to-amber-400 hover:from-cyan-400 hover:to-amber-300 text-black font-orbitron font-black text-lg sm:text-xl tracking-widest shadow-glow-cyan hover:scale-105 active:scale-95 transition-all duration-200 uppercase flex items-center space-x-2.5">
+        <i class="fa-solid fa-bolt text-lg animate-bounce"></i>
         <span>SPIN</span>
       </button>
 
-      <button onclick="toggleWinnerHistoryDrawer()" class="p-4 rounded-2xl glass-panel text-amber-400 border-amber-500/40 hover:bg-amber-500/10 transition shadow-lg" title="Winner History">
-        <i class="fa-solid fa-trophy text-xl"></i>
+      <button onclick="toggleWinnerHistoryDrawer()" class="p-3 rounded-2xl glass-panel text-amber-400 border-amber-500/40 hover:bg-amber-500/10 transition shadow-lg" title="Winner History">
+        <i class="fa-solid fa-trophy text-base"></i>
       </button>
     </div>
 
@@ -279,10 +274,10 @@
       
       <div class="flex justify-between items-center pb-4 border-b border-slate-800">
         <div class="flex items-center space-x-3">
-          <i class="fa-solid fa-database text-cyan-400 text-2xl"></i>
+          <i class="fa-solid fa-users-gear text-cyan-400 text-2xl"></i>
           <div>
-            <h2 class="text-xl font-orbitron font-bold text-white">SUPABASE DATABASE SYNC</h2>
-            <p class="text-slate-400 text-xs font-mono">Connected directly to registered attendees table.</p>
+            <h2 class="text-xl font-orbitron font-bold text-white">EXPLORERS POOL MANAGER</h2>
+            <p class="text-slate-400 text-xs font-mono">Manage participants and tickets for your lucky draw.</p>
           </div>
         </div>
         <button onclick="closeManageModal()" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:text-white transition flex items-center justify-center">
@@ -292,60 +287,51 @@
 
       <div class="grid grid-cols-1 md:grid-cols-12 gap-6 my-4 overflow-y-auto flex-1 pr-1">
         
-        <!-- Left: Supabase Config Settings -->
         <div class="md:col-span-5 space-y-4">
-          <div class="space-y-3 p-4 rounded-xl bg-slate-900/60 border border-cyan-500/30">
-            <h3 class="font-orbitron font-bold text-xs text-cyan-300 flex items-center space-x-2">
-              <i class="fa-solid fa-key text-amber-400"></i>
-              <span>SUPABASE CREDENTIALS</span>
-            </h3>
-            
-            <div class="space-y-1">
-              <label class="text-[10px] font-mono text-slate-400">SUPABASE URL</label>
-              <input type="text" id="supabase-url-input" value="https://qtnsdfhoyihzzspuridn.supabase.co" class="w-full bg-slate-950/90 border border-slate-700 rounded-lg p-2 text-xs font-mono text-cyan-200 focus:outline-none focus:border-cyan-400">
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-[10px] font-mono text-slate-400">SUPABASE ANON KEY</label>
-              <input type="password" id="supabase-key-input" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0bnNkZmhveWloenpzcHVyaWRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNzM4MjgsImV4cCI6MjEwNjg0OTgyOH0.MEXk09GChxMK6W1QZcP87c4QxsxN7Pexys4MXEoOyBs" class="w-full bg-slate-950/90 border border-slate-700 rounded-lg p-2 text-xs font-mono text-cyan-200 focus:outline-none focus:border-cyan-400">
-            </div>
-
-            <button onclick="reconnectSupabase()" class="w-full py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-orbitron font-bold text-xs transition flex items-center justify-center space-x-2 shadow-glow-cyan">
-              <i class="fa-solid fa-rotate"></i>
-              <span>FETCH & SYNC ATTENDEES NOW</span>
-            </button>
+          <div class="space-y-2">
+            <label class="font-orbitron font-bold text-xs text-cyan-300">BULK PASTE PARTICIPANTS (1 per line)</label>
+            <textarea id="bulk-input-text" rows="8" placeholder="Commander Shepard&#10;Dr. Ryan Stone&#10;Mark Watney&#10;Joseph Cooper" class="w-full bg-slate-950/90 border border-slate-700 rounded-xl p-3 text-xs font-mono text-cyan-200 focus:outline-none focus:border-cyan-400 resize-none"></textarea>
           </div>
 
-          <div class="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-            <span class="font-orbitron font-bold text-xs text-slate-300 block">SYNC SETTINGS</span>
-            <button onclick="togglePoolRemovalMode()" id="btn-pool-toggle" class="w-full p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono text-xs flex justify-between items-center">
-              <span>REMOVE WINNER AFTER DRAW:</span>
-              <span id="remove-toggle-label" class="font-bold">ON</span>
+          <div class="flex space-x-2">
+            <button onclick="processBulkEntries()" class="flex-1 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-orbitron font-bold text-xs transition uppercase">APPEND</button>
+            <button onclick="replaceWithBulkEntries()" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-orbitron font-bold text-xs transition uppercase">REPLACE ALL</button>
+          </div>
+
+          <div class="pt-2 space-y-2">
+            <button onclick="syncCloudParticipants()" class="w-full py-2.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-orbitron text-xs font-bold transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-cloud-arrow-down"></i>
+              <span>SYNC FROM CLOUD DATABASE</span>
+            </button>
+            <button onclick="loadSampleEntries(200)" class="w-full py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-orbitron text-xs font-bold transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>LOAD 200 SAMPLE PARTICIPANTS</span>
+            </button>
+            <button onclick="confirmClearAllEntries()" class="w-full py-2 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-500/40 font-orbitron text-xs font-bold transition">
+              CLEAR POOL
             </button>
           </div>
         </div>
 
-        <!-- Right: Active Database Attendees Table -->
         <div class="md:col-span-7 flex flex-col space-y-3">
           <div class="flex justify-between items-center">
-            <span class="font-orbitron font-bold text-xs text-white">DATABASE ATTENDEES (<span id="manage-pool-count">0</span>)</span>
-            <button onclick="loadSupabaseGuests()" class="text-xs text-cyan-400 hover:text-cyan-200 font-mono flex items-center space-x-1">
-              <i class="fa-solid fa-arrows-rotate"></i>
-              <span>Refresh List</span>
+            <span class="font-orbitron font-bold text-xs text-white">ACTIVE PARTICIPANTS (<span id="manage-pool-count">0</span>)</span>
+            <button onclick="togglePoolRemovalMode()" id="btn-pool-toggle" class="px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-xs">
+              <span id="remove-toggle-label">REMOVE WINNER AFTER DRAW: ON</span>
             </button>
           </div>
 
-          <div class="flex-1 overflow-y-auto max-h-[340px] bg-slate-950/90 rounded-xl border border-slate-800 p-2">
+          <div class="flex-1 overflow-y-auto max-h-[300px] bg-slate-950/90 rounded-xl border border-slate-800 p-2">
             <table class="w-full text-left font-mono text-xs">
               <thead class="text-slate-500 border-b border-slate-800 sticky top-0 bg-slate-950">
                 <tr>
+                  <th class="py-1 px-2">#</th>
+                  <th class="py-1 px-2">EXPLORER NAME</th>
                   <th class="py-1 px-2">TICKET</th>
-                  <th class="py-1 px-2">GUEST NAME</th>
-                  <th class="py-1 px-2">ROOM</th>
+                  <th class="py-1 px-2 text-right">ACTION</th>
                 </tr>
               </thead>
               <tbody id="manage-table-body" class="divide-y divide-slate-800/60">
-                <!-- Dynamically populated from Supabase -->
               </tbody>
             </table>
           </div>
@@ -362,16 +348,15 @@
     </div>
   </div>
 
-  <!-- WINNER HISTORY DRAWER -->
-  <div id="history-drawer" class="fixed top-20 right-4 z-40 w-80 glass-panel-gold rounded-2xl p-4 shadow-glow-gold transition-all duration-300 transform translate-x-[120%] opacity-0 pointer-events-none">
-    <div class="flex justify-between items-center pb-2 border-b border-amber-500/30 mb-3">
-      <div class="flex items-center space-x-2 text-amber-400 font-orbitron font-bold text-sm">
-        <i class="fa-solid fa-trophy text-amber-300"></i>
+  <div id="history-drawer" class="fixed top-16 right-4 z-40 w-72 glass-panel-gold rounded-2xl p-3.5 shadow-glow-gold transition-all duration-300 transform translate-x-[120%] opacity-0 pointer-events-none">
+    <div class="flex justify-between items-center pb-2 border-b border-amber-500/30 mb-2.5">
+      <div class="flex items-center space-x-2 text-amber-400 font-orbitron font-bold text-xs">
+        <i class="fa-solid fa-trophy text-amber-300 text-xs"></i>
         <span>HALL OF WINNERS</span>
       </div>
       <div class="flex items-center space-x-2">
-        <button id="pin-winner-btn" onclick="togglePinWinnerDrawer()" class="text-amber-400/70 hover:text-amber-200 text-xs px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30" title="Pin / Keep Open">
-          <i id="pin-icon" class="fa-solid fa-thumbtack"></i>
+        <button id="pin-winner-btn" onclick="togglePinWinnerDrawer()" class="text-amber-400/70 hover:text-amber-200 text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30" title="Pin / Keep Open">
+          <i id="pin-icon" class="fa-solid fa-thumbtack text-[10px]"></i>
         </button>
         <button onclick="toggleWinnerHistoryDrawer()" class="text-amber-400/70 hover:text-amber-200 text-sm">
           <i class="fa-solid fa-xmark"></i>
@@ -379,15 +364,14 @@
       </div>
     </div>
 
-    <div id="winner-history-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 font-mono text-xs">
-      <!-- Winner items dynamically populated here -->
+    <div id="winner-history-list" class="max-h-52 overflow-y-auto space-y-1.5 pr-1 font-mono text-[11px]">
     </div>
 
-    <div class="mt-3 pt-2 border-t border-amber-500/20 flex justify-between">
-      <button onclick="exportWinnersList()" class="px-3 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[11px] font-orbitron border border-amber-500/30">
+    <div class="mt-2.5 pt-2 border-t border-amber-500/20 flex justify-between">
+      <button onclick="exportWinnersList()" class="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] font-orbitron border border-amber-500/30">
         <i class="fa-solid fa-download mr-1"></i> EXPORT
       </button>
-      <button onclick="clearWinnerHistory()" class="px-3 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-[11px] font-orbitron border border-rose-500/30">
+      <button onclick="clearWinnerHistory()" class="px-2.5 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 text-[10px] font-orbitron border border-amber-500/30">
         CLEAR
       </button>
     </div>
@@ -400,10 +384,12 @@
   </div>
 
   <script>
-    // Supabase State & Client
-    let supabaseClient = null;
+    const SUPABASE_URL = "https://qtnsdfhoyihzzspuridn.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0bnNkZmhveWloenpzcHVyaWRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNzM4MjgsImV4cCI6MjEwNjg0OTgyOH0.MEXk09GChxMK6W1QZcP87c4QxsxN7Pexys4MXEoOyBs";
+    const supabaseClient = window.supabase ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
     let state = {
-      participants: [], // Objects: { id, name, room, ticket }
+      participants: [],
       winners: [],
       isDrawing: false,
       removeWinnerAfterDraw: true,
@@ -416,57 +402,6 @@
     let shootingStars = [];
     let hugeShootingStar = null;
 
-    function initSupabaseClient() {
-      try {
-        const urlInput = document.getElementById('supabase-url-input').value.trim();
-        const keyInput = document.getElementById('supabase-key-input').value.trim();
-        if (window.supabase && urlInput && keyInput) {
-          supabaseClient = window.supabase.createClient(urlInput, keyInput);
-        }
-      } catch (e) {
-        console.warn("Supabase init warning:", e);
-      }
-    }
-
-    async function loadSupabaseGuests() {
-      try {
-        if (!supabaseClient) initSupabaseClient();
-        if (!supabaseClient) {
-          showToast("SUPABASE CLIENT NOT INITIALIZED", "warning");
-          return;
-        }
-
-        showToast("FETCHING ATTENDEES FROM SUPABASE...");
-        const { data, error } = await supabaseClient
-          .from('guests')
-          .select('*')
-          .order('id', { ascending: true });
-
-        if (error) throw error;
-
-        if (data && Array.isArray(data)) {
-          state.participants = data.map(g => ({
-            id: g.id,
-            name: g.name || 'Anonymous Explorer',
-            room: g.room || 'N/A',
-            ticket: g.ticket || `#STAR-${String(g.id).padStart(3, '0')}`
-          }));
-          updateBadgeCounts();
-          populateScrollTrack();
-          renderManageTable();
-          showToast(`LOADED ${state.participants.length} ATTENDEES FROM SUPABASE!`);
-        }
-      } catch (err) {
-        console.error("Supabase fetch error:", err);
-        showToast("FAILED TO FETCH FROM SUPABASE. CHECK CREDENTIALS.", "warning");
-      }
-    }
-
-    function reconnectSupabase() {
-      initSupabaseClient();
-      loadSupabaseGuests();
-    }
-
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -477,15 +412,96 @@
         .replace(/'/g, '&#039;');
     }
 
+    function saveEntries() {
+      try {
+        localStorage.setItem('cosmic_participants', JSON.stringify(state.participants));
+      } catch (e) {}
+    }
+
+    async function syncCloudParticipants() {
+      try {
+        if (!supabaseClient) {
+          showToast("SUPABASE CLIENT NOT LOADED", "warning");
+          return;
+        }
+        showToast("SYNCING WITH CLOUD DATABASE...");
+        const { data, error } = await supabaseClient
+          .from('guests')
+          .select('*')
+          .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          state.participants = data.map((g, idx) => ({
+            name: g.name || g.guest_name || 'Explorer',
+            ticket: g.ticket || g.ticket_number || `TICKET #${1000 + (g.id || idx + 1)}`,
+            id: g.id || idx + 1
+          }));
+          saveEntries();
+          renderManageTable();
+          updateBadgeCounts();
+          populateScrollTrack();
+          showToast(`SYNCED ${data.length} GUESTS FROM CLOUD!`);
+        } else {
+          showToast("NO GUESTS FOUND IN CLOUD DATABASE", "warning");
+        }
+      } catch (e) {
+        console.error(e);
+        showToast("CLOUD SYNC FAILED. USING LOCAL POOL.", "warning");
+      }
+    }
+
+    async function loadSavedEntries() {
+      try {
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient
+            .from('guests')
+            .select('*');
+          if (!error && data && data.length > 0) {
+            state.participants = data.map((g, idx) => ({
+              name: g.name || g.guest_name || 'Explorer',
+              ticket: g.ticket || g.ticket_number || `TICKET #${1000 + (g.id || idx + 1)}`,
+              id: g.id || idx + 1
+            }));
+            saveEntries();
+            return;
+          }
+        }
+
+        const saved = localStorage.getItem('cosmic_participants');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            state.participants = parsed;
+            return;
+          }
+        }
+        loadSampleEntries(200);
+      } catch (e) {
+        loadSampleEntries(200);
+      }
+    }
+
+    async function autoSyncOnLoad() {
+      try {
+        if (supabaseClient) {
+          await syncCloudParticipants();
+        } else {
+          await loadSavedEntries();
+        }
+      } catch (e) {
+        await loadSavedEntries();
+      }
+    }
+
     function updateBadgeCounts() {
       try {
         const badge = document.getElementById('badge-entry-count');
         if (badge) badge.innerText = state.participants.length;
         const modalCount = document.getElementById('manage-pool-count');
         if (modalCount) modalCount.innerText = state.participants.length;
-      } catch (e) {
-        console.error('Update badge count error:', e);
-      }
+      } catch (e) {}
     }
 
     function initAudioContext() {
@@ -497,22 +513,16 @@
         if (audioCtx && audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
-      } catch (e) {
-        console.warn('Audio Context initialization error:', e);
-      }
+      } catch (e) {}
     }
 
     function toggleAudio() {
-      try {
-        state.audioEnabled = !state.audioEnabled;
-        const icon = document.getElementById('sound-icon');
-        if (icon) {
-          icon.className = state.audioEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
-        }
-        showToast(`AUDIO EFFECTS: ${state.audioEnabled ? 'ENABLED' : 'DISABLED'}`);
-      } catch (e) {
-        console.error('Toggle audio error:', e);
+      state.audioEnabled = !state.audioEnabled;
+      const icon = document.getElementById('sound-icon');
+      if (icon) {
+        icon.className = state.audioEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
       }
+      showToast(`AUDIO EFFECTS: ${state.audioEnabled ? 'ENABLED' : 'DISABLED'}`);
     }
 
     function playBeep(freq = 440, type = 'sine', duration = 0.05, vol = 0.05) {
@@ -530,9 +540,93 @@
         gain.connect(audioCtx.destination);
         osc.start();
         osc.stop(audioCtx.currentTime + duration);
-      } catch (e) {
-        console.warn('Play beep audio error:', e);
-      }
+      } catch (e) {}
+    }
+
+    function playSpinDrumRollLoop(durationSec = 6.5) {
+      if (!state.audioEnabled) return;
+      try {
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const startTime = audioCtx.currentTime;
+        const endTime = startTime + durationSec;
+        let beatCount = 0;
+
+        const drumIntervalTimer = setInterval(() => {
+          if (!audioCtx || audioCtx.currentTime >= endTime || !state.isDrawing) {
+            clearInterval(drumIntervalTimer);
+            return;
+          }
+
+          try {
+            const now = audioCtx.currentTime;
+            const progress = (now - startTime) / durationSec;
+
+            if (beatCount % 4 === 0) {
+              const kickOsc = audioCtx.createOscillator();
+              const kickGain = audioCtx.createGain();
+              kickOsc.type = 'sine';
+              kickOsc.frequency.setValueAtTime(180, now);
+              kickOsc.frequency.exponentialRampToValueAtTime(30, now + 0.16);
+              kickGain.gain.setValueAtTime(0.75, now);
+              kickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+              kickOsc.connect(kickGain);
+              kickGain.connect(audioCtx.destination);
+              kickOsc.start(now);
+              kickOsc.stop(now + 0.16);
+            }
+
+            const snareOsc = audioCtx.createOscillator();
+            const snareGain = audioCtx.createGain();
+            snareOsc.type = 'triangle';
+            snareOsc.frequency.setValueAtTime(260 + (progress * 220), now);
+            snareGain.gain.setValueAtTime(0.65, now);
+            snareGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+            snareOsc.connect(snareGain);
+            snareGain.connect(audioCtx.destination);
+            snareOsc.start(now);
+            snareOsc.stop(now + 0.09);
+
+            beatCount++;
+          } catch (e) {}
+        }, 75);
+
+        const fanfareNotes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+        fanfareNotes.forEach((freq, idx) => {
+          const noteTime = startTime + 1.2 + (idx * 0.7);
+          if (noteTime < endTime) {
+            setTimeout(() => {
+              if (state.isDrawing) {
+                playBeep(freq, 'sawtooth', 0.5, 0.08);
+                playBeep(freq * 1.5, 'triangle', 0.4, 0.05);
+              }
+            }, (noteTime - startTime) * 1000);
+          }
+        });
+
+      } catch (e) {}
+    }
+
+    function playSkySweepSound() {
+      if (!state.audioEnabled) return;
+      try {
+        initAudioContext();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 1.4);
+        
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.4);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.4);
+      } catch (e) {}
     }
 
     function playCosmicFanfare() {
@@ -546,9 +640,7 @@
             playBeep(freq, 'triangle', 0.45, 0.18);
           }, idx * 110);
         });
-      } catch (e) {
-        console.warn('Fanfare sound error:', e);
-      }
+      } catch (e) {}
     }
 
     function resizeCanvas() {
@@ -558,9 +650,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         initStars(canvas.width, canvas.height);
-      } catch (e) {
-        console.error('Resize canvas error:', e);
-      }
+      } catch (e) {}
     }
 
     function initStars(w, h) {
@@ -651,8 +741,8 @@
           const now = performance.now();
           const elapsed = now - hugeShootingStar.startTime;
           const p = Math.min(1.0, elapsed / hugeShootingStar.duration);
-          const easeP = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
+          const easeP = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
           const currentX = hugeShootingStar.startX + (hugeShootingStar.endX - hugeShootingStar.startX) * easeP;
           const currentY = hugeShootingStar.startY + (hugeShootingStar.endY - hugeShootingStar.startY) * easeP;
 
@@ -721,10 +811,7 @@
             hugeShootingStar = null;
           }
         }
-
-      } catch (e) {
-        console.error('Sky render frame error:', e);
-      }
+      } catch (e) {}
 
       requestAnimationFrame(renderSky);
     }
@@ -735,23 +822,22 @@
         if (!track) return;
 
         if (state.participants.length === 0) {
-          track.innerHTML = '<div class="px-8 text-rose-400">NO ATTENDEES LOADED FROM SUPABASE</div>';
+          track.innerHTML = '<div class="px-6 text-rose-400">NO EXPLORERS AVAILABLE - ADD PARTICIPANTS</div>';
           return;
         }
 
         let items = [];
         const fillCount = Math.max(30, state.participants.length * 3);
         for (let i = 0; i < fillCount; i++) {
-          const guest = state.participants[i % state.participants.length];
-          items.push(`<div class="name-item inline-block px-8 sm:px-12 py-1 transition-all duration-200">${escapeHtml(guest.name)} <span class="text-xs text-amber-400/80 font-mono">(${escapeHtml(guest.ticket)})</span></div>`);
+          const participant = state.participants[i % state.participants.length];
+          const displayName = typeof participant === 'object' ? participant.name : participant;
+          items.push(`<div class="name-item inline-block px-6 sm:px-10 py-1 transition-all duration-200" data-name="${escapeHtml(displayName)}">${escapeHtml(displayName)}</div>`);
         }
         track.innerHTML = items.join('');
         track.style.transform = 'translateX(0px)';
 
         setTimeout(updateReticleSizeToCenterItem, 50);
-      } catch (err) {
-        console.error("Populate scroll track error:", err);
-      }
+      } catch (err) {}
     }
 
     function updateReticleSizeToCenterItem() {
@@ -778,12 +864,10 @@
         });
 
         if (closestItem) {
-          const targetWidth = Math.max(240, closestItem.offsetWidth + 72);
+          const targetWidth = Math.max(220, closestItem.offsetWidth + 72);
           reticle.style.width = `${targetWidth}px`;
         }
-      } catch (e) {
-        console.warn("Update reticle size error:", e);
-      }
+      } catch (e) {}
     }
 
     function startTelescopeDrawSequence() {
@@ -791,13 +875,15 @@
         if (state.isDrawing) return;
 
         if (state.participants.length === 0) {
-          showToast("ATTENDEE POOL IS EMPTY! CHECK SUPABASE CONNECTION.", "warning");
+          showToast("EXPLORER POOL IS EMPTY! ADD PARTICIPANTS FIRST.", "warning");
           openManageModal();
           return;
         }
 
         initAudioContext();
         state.isDrawing = true;
+
+        playSpinDrumRollLoop(6.5);
 
         const drawBtn = document.getElementById('draw-main-btn');
         drawBtn.disabled = true;
@@ -810,103 +896,119 @@
         skyWinner.className = 'sky-winner-hidden absolute z-30 max-w-[94vw] sm:max-w-[88vw] md:max-w-[80vw] flex flex-col items-center justify-center text-center';
 
         const winnerIndex = Math.floor(Math.random() * state.participants.length);
-        const winningGuest = state.participants[winnerIndex];
+        const winningParticipant = state.participants[winnerIndex];
+        const winningName = typeof winningParticipant === 'object' ? winningParticipant.name : winningParticipant;
+        const winningTicket = typeof winningParticipant === 'object' ? winningParticipant.ticket : `TICKET #${1000 + winnerIndex}`;
 
         populateScrollTrack();
-        const track = document.getElementById('names-scroll-track');
-        track.style.transform = 'translateX(0px)';
-
-        const items = track.querySelectorAll('.name-item');
-        items.forEach(el => el.classList.remove('text-amber-300', 'scale-125', 'drop-shadow-[0_0_25px_rgba(255,215,0,1)]', 'z-10'));
-
-        let targetItemIndex = -1;
-        const searchStartIndex = 15;
-        for (let i = searchStartIndex; i < items.length; i++) {
-          if (items[i].textContent.includes(winningGuest.name)) {
-            targetItemIndex = i;
-            break;
-          }
-        }
-        if (targetItemIndex === -1) {
-          for (let i = 0; i < items.length; i++) {
-            if (items[i].textContent.includes(winningGuest.name)) {
-              targetItemIndex = i;
-              break;
-            }
-          }
-        }
-
-        const container = document.getElementById('names-scroll-container');
-        if (!container || targetItemIndex === -1) return;
-
-        const containerRect = container.getBoundingClientRect();
-        const targetElement = items[targetItemIndex];
-        const targetRect = targetElement.getBoundingClientRect();
-
-        const containerCenterX = containerRect.left + containerRect.width / 2;
-        const targetCenterX = targetRect.left + targetRect.width / 2;
-        const finalX = containerCenterX - targetCenterX;
-
-        const startTime = Date.now();
-        const duration = 6500; 
-        const startX = 0;
-        let lastBeepTime = 0;
-
-        function animateScroll() {
+        
+        // Use requestAnimationFrame to guarantee browser layout calculation is complete before measuring bounding rects on the first try
+        requestAnimationFrame(() => {
           try {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(1, elapsed / duration);
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const currentX = startX + (finalX - startX) * easeOut;
+            const track = document.getElementById('names-scroll-track');
+            if (!track) {
+              resetDrawState();
+              return;
+            }
+            track.style.transform = 'translateX(0px)';
 
-            track.style.transform = `translateX(${currentX}px)`;
-            updateReticleSizeToCenterItem();
+            const items = track.querySelectorAll('.name-item');
+            items.forEach(el => el.classList.remove('text-amber-300', 'scale-125', 'drop-shadow-[0_0_25px_rgba(255,215,0,1)]', 'z-10'));
 
-            const timeBetweenBeeps = 90 + (progress * 420);
-            if (Date.now() - lastBeepTime > timeBetweenBeeps && progress < 0.98) {
-              playBeep(380 + ((1 - progress) * 320), 'sine', 0.05, 0.035);
-              lastBeepTime = Date.now();
+            let targetItemIndex = -1;
+            const searchStartIndex = 15;
+            for (let i = searchStartIndex; i < items.length; i++) {
+              if (items[i].textContent.trim() === winningName.trim()) {
+                targetItemIndex = i;
+                break;
+              }
+            }
+            if (targetItemIndex === -1) {
+              for (let i = 0; i < items.length; i++) {
+                if (items[i].textContent.trim() === winningName.trim()) {
+                  targetItemIndex = i;
+                  break;
+                }
+              }
             }
 
-            if (progress < 1) {
-              requestAnimationFrame(animateScroll);
-            } else {
-              track.style.transform = `translateX(${finalX}px)`;
-              targetElement.classList.add('text-amber-300', 'scale-125', 'drop-shadow-[0_0_25px_rgba(255,215,0,1)]', 'z-10');
-              updateReticleSizeToCenterItem();
-              
-              playBeep(880, 'square', 0.35, 0.15);
-
-              setTimeout(() => {
-                executeCameraPanToSky(winningGuest, winnerIndex);
-              }, 1200);
+            const container = document.getElementById('names-scroll-container');
+            if (!container || targetItemIndex === -1) {
+              resetDrawState();
+              return;
             }
-          } catch (err) {
-            console.error("Animate scroll exception:", err);
+
+            const containerRect = container.getBoundingClientRect();
+            const targetElement = items[targetItemIndex];
+            const targetRect = targetElement.getBoundingClientRect();
+
+            const containerCenterX = containerRect.left + containerRect.width / 2;
+            const targetCenterX = targetRect.left + targetRect.width / 2;
+            const finalX = containerCenterX - targetCenterX;
+
+            const startTime = Date.now();
+            const duration = 6500; 
+            const startX = 0;
+            let lastBeepTime = 0;
+
+            function animateScroll() {
+              try {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(1, elapsed / duration);
+
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentX = startX + (finalX - startX) * easeOut;
+
+                track.style.transform = `translateX(${currentX}px)`;
+                updateReticleSizeToCenterItem();
+
+                const timeBetweenBeeps = 90 + (progress * 420);
+                if (Date.now() - lastBeepTime > timeBetweenBeeps && progress < 0.98) {
+                  playBeep(380 + ((1 - progress) * 320), 'sine', 0.05, 0.035);
+                  lastBeepTime = Date.now();
+                }
+
+                if (progress < 1) {
+                  requestAnimationFrame(animateScroll);
+                } else {
+                  track.style.transform = `translateX(${finalX}px)`;
+                  targetElement.classList.add('text-amber-300', 'scale-125', 'drop-shadow-[0_0_25px_rgba(255,215,0,1)]', 'z-10');
+                  updateReticleSizeToCenterItem();
+                  
+                  playBeep(880, 'square', 0.35, 0.15);
+
+                  setTimeout(() => {
+                    executeCameraPanToSky(winningName, winningTicket, winnerIndex);
+                  }, 1200);
+                }
+              } catch (err) {
+                resetDrawState();
+              }
+            }
+
+            requestAnimationFrame(animateScroll);
+          } catch (e) {
             resetDrawState();
           }
-        }
-
-        requestAnimationFrame(animateScroll);
-
+        });
       } catch (e) {
-        console.error("Draw initiation error:", e);
         resetDrawState();
       }
     }
 
-    function executeCameraPanToSky(winningGuest, winnerIndex) {
+    function executeCameraPanToSky(winnerName, winnerTicket, winnerIndex) {
       try {
         const telescopeRig = document.getElementById('telescope-rig');
         const skyWinner = document.getElementById('sky-winner-container');
         const skyName = document.getElementById('sky-winner-name');
-        const skyTicket = document.getElementById('sky-coord-ticket');
+        const skyTicket = document.getElementById('sky-winner-ticket');
 
         telescopeRig.className = 'telescope-exited absolute z-20 w-[135vh] h-[135vh] min-w-[135vh] min-h-[135vh] rounded-full flex items-center justify-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
-        playBeep(180, 'sawtooth', 0.9, 0.16);
 
-        skyName.innerText = winningGuest.name;
-        skyTicket.innerText = `${winningGuest.ticket} (${winningGuest.room})`;
+        playSkySweepSound();
+
+        skyName.innerText = winnerName;
+        skyTicket.innerText = winnerTicket;
 
         const canvas = document.getElementById('sky-canvas');
         const w = canvas ? canvas.width : window.innerWidth;
@@ -922,20 +1024,20 @@
           hasTriggeredReveal: false,
           onRevealTrigger: function() {
             skyWinner.className = 'sky-winner-visible absolute z-30 max-w-[94vw] sm:max-w-[88vw] md:max-w-[80vw] flex flex-col items-center justify-center text-center';
+            
             playCosmicFanfare();
 
-            recordWinner(winningGuest.name, winningGuest.ticket);
+            recordWinner(winnerName, winnerTicket);
             if (state.removeWinnerAfterDraw) {
               state.participants.splice(winnerIndex, 1);
+              saveEntries();
               updateBadgeCounts();
             }
 
             resetDrawState();
           }
         };
-
       } catch (err) {
-        console.error("Camera pan execution error:", err);
         resetDrawState();
       }
     }
@@ -951,10 +1053,7 @@
           telescopeRig.className = 'telescope-centered absolute z-20 w-[135vh] h-[135vh] min-w-[135vh] min-h-[135vh] rounded-full flex items-center justify-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
           populateScrollTrack();
         }, 400);
-
-      } catch (e) {
-        console.error("Reset telescope error:", e);
-      }
+      } catch (e) {}
     }
 
     function resetDrawState() {
@@ -971,9 +1070,7 @@
         renderManageTable();
         const modal = document.getElementById('manage-modal');
         modal.classList.remove('opacity-0', 'pointer-events-none');
-      } catch (e) {
-        console.error("Open modal error:", e);
-      }
+      } catch (e) {}
     }
 
     function closeManageModal() {
@@ -982,9 +1079,7 @@
         modal.classList.add('opacity-0', 'pointer-events-none');
         updateBadgeCounts();
         populateScrollTrack();
-      } catch (e) {
-        console.error("Close modal error:", e);
-      }
+      } catch (e) {}
     }
 
     function renderManageTable() {
@@ -993,29 +1088,120 @@
         if (!tbody) return;
 
         if (state.participants.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-500 font-mono">NO ATTENDEES LOADED</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-slate-500 font-mono">NO EXPLORERS AVAILABLE</td></tr>`;
           return;
         }
 
-        tbody.innerHTML = state.participants.map((g, idx) => `
-          <tr class="hover:bg-slate-900/60">
-            <td class="py-1.5 px-2 text-amber-400 font-bold">${escapeHtml(g.ticket)}</td>
-            <td class="py-1.5 px-2 text-cyan-200">${escapeHtml(g.name)}</td>
-            <td class="py-1.5 px-2 text-slate-400">${escapeHtml(g.room)}</td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = state.participants.map((p, idx) => {
+          const name = typeof p === 'object' ? p.name : p;
+          const ticket = typeof p === 'object' ? p.ticket : `TICKET #${1000 + idx}`;
+          return `
+            <tr class="hover:bg-slate-900/60">
+              <td class="py-1.5 px-2 text-slate-500">${idx + 1}</td>
+              <td class="py-1.5 px-2 text-cyan-200 font-semibold">${escapeHtml(name)}</td>
+              <td class="py-1.5 px-2 text-amber-300 font-mono">${escapeHtml(ticket)}</td>
+              <td class="py-1.5 px-2 text-right">
+                <button onclick="removeSingleParticipant(${idx})" class="text-rose-400 hover:text-rose-200 px-2 py-0.5 rounded bg-rose-950/30 border border-rose-800/40">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
 
         document.getElementById('manage-pool-count').innerText = state.participants.length;
-      } catch (e) {
-        console.error("Render manage table error:", e);
+      } catch (e) {}
+    }
+
+    function removeSingleParticipant(index) {
+      if (index >= 0 && index < state.participants.length) {
+        const removed = state.participants.splice(index, 1);
+        saveEntries();
+        renderManageTable();
+        updateBadgeCounts();
+        const remName = typeof removed[0] === 'object' ? removed[0].name : removed[0];
+        showToast(`REMOVED: ${remName}`);
       }
+    }
+
+    function processBulkEntries() {
+      const text = document.getElementById('bulk-input-text').value;
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) {
+        showToast("NO VALID NAMES ENTERED", "warning");
+        return;
+      }
+
+      const newEntries = lines.map((name, i) => ({
+        name: name,
+        ticket: `TICKET #${Math.floor(Math.random() * 8999 + 1000)}`,
+        id: Date.now() + i
+      }));
+
+      state.participants.push(...newEntries);
+      saveEntries();
+      renderManageTable();
+      updateBadgeCounts();
+      document.getElementById('bulk-input-text').value = '';
+      showToast(`ADDED ${lines.length} PARTICIPANTS`);
+    }
+
+    function replaceWithBulkEntries() {
+      const text = document.getElementById('bulk-input-text').value;
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      if (lines.length === 0) {
+        showToast("NO VALID NAMES ENTERED", "warning");
+        return;
+      }
+
+      state.participants = lines.map((name, i) => ({
+        name: name,
+        ticket: `TICKET #${Math.floor(Math.random() * 8999 + 1000)}`,
+        id: Date.now() + i
+      }));
+
+      saveEntries();
+      renderManageTable();
+      updateBadgeCounts();
+      document.getElementById('bulk-input-text').value = '';
+      showToast(`POOL REPLACED WITH ${lines.length} EXPLORERS`);
+    }
+
+    function loadSampleEntries(count = 200) {
+      const sampleCallsigns = [
+        'Astra', 'Vanguard', 'Orion', 'Helios', 'Nova', 'Titan', 'Apex', 'Spectra', 'Cygnus', 'Nebula',
+        'Phoenix', 'Zenith', 'Polaris', 'Solaria', 'Eclipse', 'Pioneer', 'Voyager', 'Galaxion', 'Starlight', 'Hyperion'
+      ];
+      
+      state.participants = Array.from({ length: count }, (_, i) => {
+        const prefix = sampleCallsigns[i % sampleCallsigns.length];
+        const num = String(i + 1).padStart(3, '0');
+        return {
+          name: `Explorer ${prefix}-${num}`,
+          ticket: `TICKET #${1000 + i}`,
+          id: i + 1
+        };
+      });
+
+      saveEntries();
+      renderManageTable();
+      updateBadgeCounts();
+      showToast(`LOADED ${count} SAMPLE PARTICIPANTS`);
+    }
+
+    function confirmClearAllEntries() {
+      state.participants = [];
+      saveEntries();
+      renderManageTable();
+      updateBadgeCounts();
+      showToast("EXPLORER POOL CLEARED", "warning");
     }
 
     function togglePoolRemovalMode() {
       state.removeWinnerAfterDraw = !state.removeWinnerAfterDraw;
       const lbl = document.getElementById('remove-toggle-label');
       if (lbl) {
-        lbl.innerText = state.removeWinnerAfterDraw ? 'ON' : 'OFF';
+        lbl.innerText = `REMOVE WINNER AFTER DRAW: ${state.removeWinnerAfterDraw ? 'ON' : 'OFF'}`;
       }
       showToast(`WINNER AUTO-REMOVE: ${state.removeWinnerAfterDraw ? 'ENABLED' : 'DISABLED'}`);
     }
@@ -1034,9 +1220,7 @@
         if (drawer && drawer.classList.contains('translate-x-[120%]')) {
           drawer.classList.remove('translate-x-[120%]', 'opacity-0', 'pointer-events-none');
         }
-      } catch (e) {
-        console.error("Record winner error:", e);
-      }
+      } catch (e) {}
     }
 
     function renderWinnerHistory() {
@@ -1050,17 +1234,15 @@
         }
 
         container.innerHTML = state.winners.map((w, idx) => `
-          <div class="p-2 rounded-xl bg-amber-950/40 border border-amber-500/30 flex justify-between items-center">
-            <div>
+          <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-500/30 flex flex-col space-y-1">
+            <div class="flex justify-between items-center">
               <span class="text-amber-200 font-bold">#${state.winners.length - idx} ${escapeHtml(w.name)}</span>
-              <span class="text-[10px] text-amber-400/80 ml-1">(${w.ticket})</span>
+              <span class="text-[10px] text-amber-400/60">${w.time}</span>
             </div>
-            <span class="text-[10px] text-amber-400/60">${w.time}</span>
+            <div class="text-[11px] text-amber-300/90 font-bold">Ticket: ${escapeHtml(w.ticket)}</div>
           </div>
         `).join('');
-      } catch (e) {
-        console.error("Render winner history error:", e);
-      }
+      } catch (e) {}
     }
 
     function toggleWinnerHistoryDrawer() {
@@ -1074,28 +1256,22 @@
         } else {
           drawer.classList.add('translate-x-[120%]', 'opacity-0', 'pointer-events-none');
         }
-      } catch (e) {
-        console.error("Toggle history drawer error:", e);
-      }
+      } catch (e) {}
     }
 
     function togglePinWinnerDrawer() {
-      try {
-        state.isWinnerDrawerPinned = !state.isWinnerDrawerPinned;
-        const pinBtn = document.getElementById('pin-winner-btn');
-        const pinIcon = document.getElementById('pin-icon');
+      state.isWinnerDrawerPinned = !state.isWinnerDrawerPinned;
+      const pinBtn = document.getElementById('pin-winner-btn');
+      const pinIcon = document.getElementById('pin-icon');
 
-        if (state.isWinnerDrawerPinned) {
-          pinBtn.classList.add('bg-amber-500/30', 'border-amber-400', 'text-amber-200');
-          pinIcon.className = 'fa-solid fa-thumbtack text-amber-300';
-          showToast("HALL OF WINNERS PINNED OPEN");
-        } else {
-          pinBtn.classList.remove('bg-amber-500/30', 'border-amber-400', 'text-amber-200');
-          pinIcon.className = 'fa-solid fa-thumbtack';
-          showToast("UNPINNED WINNERS DRAWER");
-        }
-      } catch (e) {
-        console.error("Toggle pin drawer error:", e);
+      if (state.isWinnerDrawerPinned) {
+        pinBtn.classList.add('bg-amber-500/30', 'border-amber-400', 'text-amber-200');
+        pinIcon.className = 'fa-solid fa-thumbtack text-amber-300';
+        showToast("HALL OF WINNERS PINNED OPEN");
+      } else {
+        pinBtn.classList.remove('bg-amber-500/30', 'border-amber-400', 'text-amber-200');
+        pinIcon.className = 'fa-solid fa-thumbtack';
+        showToast("UNPINNED WINNERS DRAWER");
       }
     }
 
@@ -1112,7 +1288,7 @@
           return;
         }
 
-        const lines = state.winners.map((w, i) => `${i + 1}. ${w.name} [${w.ticket}] (${w.time})`).join('\n');
+        const lines = state.winners.map((w, i) => `${i + 1}. ${w.name} - ${w.ticket} (${w.time})`).join('\n');
         const blob = new Blob([lines], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1124,9 +1300,7 @@
         URL.revokeObjectURL(url);
 
         showToast("EXPORTED WINNERS FILE");
-      } catch (e) {
-        console.error("Export winners error:", e);
-      }
+      } catch (e) {}
     }
 
     function showToast(msg, type = "info") {
@@ -1151,44 +1325,36 @@
           toast.classList.add('-translate-y-10', 'opacity-0', 'pointer-events-none');
           toast.classList.remove('translate-y-0', 'opacity-100');
         }, 2800);
-      } catch (e) {
-        console.error("Show toast error:", e);
-      }
+      } catch (e) {}
     }
 
     function toggleFullscreen() {
       try {
         if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen().catch(err => {
-            console.warn("Fullscreen request denied:", err);
-          });
+          document.documentElement.requestFullscreen().catch(err => {});
         } else {
           if (document.exitFullscreen) {
             document.exitFullscreen();
           }
         }
-      } catch (e) {
-        console.warn("Fullscreen toggle error:", e);
-      }
+      } catch (e) {}
     }
 
     window.addEventListener('resize', resizeCanvas);
 
-    window.onload = function () {
+    window.onload = async function () {
       try {
         resizeCanvas();
-        initSupabaseClient();
-        loadSupabaseGuests();
+        await autoSyncOnLoad();
+        updateBadgeCounts();
+        populateScrollTrack();
         renderWinnerHistory();
         renderSky();
 
         document.body.addEventListener('click', () => {
           initAudioContext();
         }, { once: true });
-
-      } catch (err) {
-        console.error("Initialization failed:", err);
-      }
+      } catch (err) {}
     };
   </script>
 </body>
